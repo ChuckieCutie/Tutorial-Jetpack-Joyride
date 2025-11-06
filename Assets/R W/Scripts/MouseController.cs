@@ -6,7 +6,7 @@ public class MouseController : MonoBehaviour
 
 {
     public float jetpackForce = 75.0f;
-    private Rigidbody2D playerRigibody;
+    private Rigidbody2D playerRigidbody;
     public float forwardMovementSpeed = 3.0f;
     
     public Transform groundCheckTransform;
@@ -15,22 +15,30 @@ public class MouseController : MonoBehaviour
     private Animator mouseAnimator;
     public ParticleSystem jetpack;
 
+    private bool isDead = false;
+
     void Start()
     {
-        playerRigibody = GetComponent<Rigidbody2D>();
+        playerRigidbody = GetComponent<Rigidbody2D>();
         mouseAnimator = GetComponent<Animator>();
     }
 
     void FixedUpdate(){
         bool jetpackActive = Input.GetButton("Fire1");
+        jetpackActive = jetpackActive && !isDead;
+
         if (jetpackActive)
         {
-            playerRigibody.AddForce(new Vector2(0, jetpackForce));
+            playerRigidbody.AddForce(new Vector2(0, jetpackForce));
         }
 
-        Vector2 newVelocity = playerRigibody.velocity;
-        newVelocity.x = forwardMovementSpeed;
-        playerRigibody.velocity = newVelocity;
+        if (!isDead)
+        {
+            Vector2 newVelocity = playerRigidbody.velocity;
+            newVelocity.x = forwardMovementSpeed;
+            playerRigidbody.velocity = newVelocity;
+        }
+
         UpdateGroundedStatus();
         AdjustJetpack(jetpackActive);
 
@@ -55,7 +63,18 @@ public class MouseController : MonoBehaviour
             {
                 jetpackEmission.rateOverTime = 75.0f;
             }
-   }
+    }
+    void OnTriggerEnter2D(Collider2D collider)
+    {
+        HitByLaser(collider);
+    }
+
+    void HitByLaser(Collider2D laserCollider)
+    {
+        isDead = true;
+        mouseAnimator.SetBool("isDead", true);
+
+    }
 
 
 }
