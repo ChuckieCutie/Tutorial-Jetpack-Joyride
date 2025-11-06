@@ -6044,7 +6044,9 @@ MonoBehaviour:
   - {fileID: 4211741474144975745, guid: d62edf918f46c4449b076c183ca4911e, type: 3}
   currentRooms:
   - {fileID: 427410534}
-  availableObjects: []
+  availableObjects:
+  - {fileID: 8169233909556346066, guid: f26b16490021b464f8c3f34d35027298, type: 3}
+  - {fileID: 4440427261948204528, guid: b777b4abc62d9274482ccfccbb250583, type: 3}
   objects: []
   objectsMinDistance: 5
   objectsMaxDistance: 10
